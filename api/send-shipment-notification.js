@@ -1,4 +1,4 @@
-module.exports = async (req,res) => {
+export default async function handler(req,res) {
   res.setHeader("Cache-Control","no-store");
   if(req.method!=="POST"){res.setHeader("Allow","POST");return res.status(405).json({error:"Method not allowed."});}
   const url=process.env.VITE_SUPABASE_URL;
@@ -32,4 +32,4 @@ module.exports = async (req,res) => {
     if(!sent.ok)return res.status(502).json({error:result?.message||"Email provider rejected the notification."});
     return res.status(200).json({message:"Shipment saved and notification sent to "+s.receiver_email+"."});
   }catch(e){return res.status(500).json({error:"Unexpected error sending shipment notification."});}
-};
+}
