@@ -74,9 +74,9 @@ stable
 security definer
 set search_path = ''
 as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.role = 'admin'
+  select coalesce(
+    auth.jwt() -> 'app_metadata' ->> 'role' = 'admin',
+    false
   );
 $$;
 revoke all on function public.is_admin() from public;
