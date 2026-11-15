@@ -42,6 +42,7 @@ create table if not exists public.shipment_events (
 create index if not exists shipment_events_shipment_time_idx
   on public.shipment_events(shipment_id,event_time asc);
 alter table public.shipment_events enable row level security;
+grant select,insert,delete on public.shipment_events to authenticated;
 
 drop policy if exists "8 Express admins read shipment events" on public.shipment_events;
 create policy "8 Express admins read shipment events" on public.shipment_events
